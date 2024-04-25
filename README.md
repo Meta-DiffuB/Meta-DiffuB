@@ -1,5 +1,5 @@
 ### Hi there 👋
-
+![Image Alt text](/img/metabeta.png)
 <!--
 **metabeta-diffusion/metabeta-diffusion** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
