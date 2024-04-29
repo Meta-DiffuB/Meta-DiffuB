@@ -20,7 +20,7 @@ Run `Train.ipynb` in jupyter notebook.
 Run `Inference.ipynb` in jupyter notebook.
 
 ## MetaBeta-Diffusion Evaluate
-Run `Evaluate.ipynb` in colab.
+Run `Evaluate.ipynb` in jupyter notebook.
 
 <!--
 **metabeta-diffusion/metabeta-diffusion** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
