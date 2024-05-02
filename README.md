@@ -1,5 +1,5 @@
 ## MetaBeta-Diffusion
-![Image Alt text](/img/metabeta_model.png)
+![Image Alt text](/img/metabeta.png)
 original code from: [DiffuSeq](https://github.com/Shark-NLP/DiffuSeq/tree/main)
 
 ## Datasets
