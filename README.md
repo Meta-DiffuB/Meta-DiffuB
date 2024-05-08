@@ -1,6 +1,5 @@
 ## MetaBeta-Diffusion
 ![Image Alt text](/img/metabeta.png)
-original code from: [DiffuSeq](https://github.com/Shark-NLP/DiffuSeq/tree/main)
 
 ## Datasets
 We follows [DiffuSeq](https://github.com/Shark-NLP/DiffuSeq/tree/main) for the dataset settings.
@@ -21,6 +20,11 @@ Run `Inference.ipynb` in jupyter notebook.
 
 ## MetaBeta-Diffusion Evaluate
 Run `Evaluate.ipynb` in jupyter notebook.
+
+## Baseline Model Reference
+- [Diffuseq](https://github.com/Shark-NLP/DiffuSeq)
+- [SeqDiffuSeq](https://github.com/Yuanhy1997/SeqDiffuSeq)
+- [Dinoiser](github.com/yegcjs/DINOISER)
 
 <!--
 **metabeta-diffusion/metabeta-diffusion** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
