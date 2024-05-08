@@ -22,6 +22,7 @@ Run `Inference.ipynb` in jupyter notebook.
 Run `Evaluate.ipynb` in jupyter notebook.
 
 ## Baseline Model Reference
+The other S2S-Diffusion models' code we run for experiments.
 - [Diffuseq](https://github.com/Shark-NLP/DiffuSeq)
 - [SeqDiffuSeq](https://github.com/Yuanhy1997/SeqDiffuSeq)
 - [Dinoiser](github.com/yegcjs/DINOISER)
