@@ -1,5 +1,12 @@
 ## MetaBeta-Diffusion
-![Image Alt text](/img/metabeta.png)
+![Image Alt text](/img/Meta_DiffuB.jpg)
+Comparison between S2S-Diffusion model (i.e., [Diffuseq](https://github.com/Shark-NLP/DiffuSeq)) and the proposed Meta-
+DiffuB. The shades of color represent different amounts of noise being imposed. Different from
+prior works that use a fixed noise, we introduce a novel scheduler-exploiter framework, Meta-DiffuB,
+which achieves trainable noise scheduling inspired by Meta Exploration. Our Meta-B schedules
+contextualized noise, enhancing the training and generation of the S2S-Diffusion model, resulting
+in state-of-the-art (SOTA) performance compared to previous S2S-Diffusion models, as detailed in
+Section 4.
 
 ## Datasets
 We follows [DiffuSeq](https://github.com/Shark-NLP/DiffuSeq/tree/main) for the dataset settings.
