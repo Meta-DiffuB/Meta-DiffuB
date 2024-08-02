@@ -1,5 +1,5 @@
 **Supplemented Table 1**: By deploying an additional LSTM-Seq2Seq model as our scheduler model, we increase the model parameters by 2.2% compared to DiffuSeq. Additionally, due to the calculation of rewards and scheduled noise, Meta-DiffuB increases the average training time per epoch by 5% compared to DiffuSeq and increases the average inference time  by 0.5% compared to DiffuSeq.
-|  | increased parameters(%) | increased training time(%) | increased inference time(%) |
+|  | increased parameters (%) | increased training time (%) | increased inference time (%) |
 | :-- | :--: | :--: | :--: |
 | Meta-DiffuB | 2.2% | 5% | 0.5% |
 
@@ -14,8 +14,8 @@
     <th >WMT14 DE-EN</th>
   </tr>
   <tr>
-    <th>SacreBLEU(↑)</th>
-    <th>SacreBLEU(↑)</th>
+    <th>SacreBLEU (↑)</th>
+    <th>SacreBLEU (↑)</th>
   </tr>
   <tr>
     <td>DiffuSeq</td>
@@ -23,7 +23,7 @@
     <td>22.72</td>
   </tr>
   <tr>
-    <td>Meta-DiffuB(exploiter=DiffuSeq)</td>
+    <td>Meta-DiffuB (exploiter=DiffuSeq)</td>
     <td style="font-weight: bold;">31.71</td>
     <td style="font-weight: bold;">26.17</td>
   </tr>
@@ -33,7 +33,7 @@
     <td>23.28</td>
   </tr>
   <tr>
-    <td>Meta-DiffuB(exploiter=SeqDiffuSeq)</td>
+    <td>Meta-DiffuB (exploiter=SeqDiffuSeq)</td>
     <td style="font-weight: bold;">32.41</td>
     <td style="font-weight: bold;">26.14</td>
   </tr>
@@ -43,7 +43,7 @@
     <td>30.30</td>
   </tr>
   <tr>
-    <td>Meta-DiffuB(exploiter=Dinoiser)</td>
+    <td>Meta-DiffuB (exploiter=Dinoiser)</td>
     <td style="font-weight: bold;">33.82</td>
     <td style="font-weight: bold;">32.09</td>
   </tr>
@@ -60,10 +60,10 @@
     <th colspan="2">QG</th>
   </tr>
   <tr>
-    <th>BLEU(↑)</th>
-    <th>BERTScore(↑)</th>
-    <th>BLEU(↑)</th>
-    <th>BERTScore(↑)</th>
+    <th>BLEU (↑)</th>
+    <th>BERTScore (↑)</th>
+    <th>BLEU (↑)</th>
+    <th>BERTScore (↑)</th>
   </tr>
   <tr>
     <td>DiffuSeq</td>
@@ -73,7 +73,7 @@
     <td>0.6123</td>
   </tr>
   <tr>
-    <td>Meta-DiffuB(exploiter=DiffuSeq)</td>
+    <td>Meta-DiffuB (exploiter=DiffuSeq)</td>
     <td style="font-weight: bold;">0.2552</td>
     <td style="font-weight: bold;">0.8821</td>
     <td style="font-weight: bold;">0.1826</td>
@@ -87,7 +87,7 @@
     <td>-</td>
   </tr>
   <tr>
-    <td>Meta-DiffuB(exploiter=DiffuSeq-v2)</td>
+    <td>Meta-DiffuB (exploiter=DiffuSeq-v2)</td>
     <td style="font-weight: bold;">0.2556</td>
     <td style="font-weight: bold;">0.8829</td>
     <td>-</td>
@@ -101,7 +101,7 @@
     <td>0.628</td>
   </tr>
   <tr>
-    <td>Meta-DiffuB(exploiter=BG-DiffuSeq)</td>
+    <td>Meta-DiffuB (exploiter=BG-DiffuSeq)</td>
     <td style="font-weight: bold;">0.279</td>
     <td style="font-weight: bold;">0.8757</td>
     <td style="font-weight: bold;">0.1838</td>
@@ -115,7 +115,7 @@
     <td>0.658</td>
   </tr>
   <tr>
-    <td>Meta-DiffuB(exploiter=TESS)</td>
+    <td>Meta-DiffuB (exploiter=TESS)</td>
     <td style="font-weight: bold;">0.3142</td>
     <td style="font-weight: bold;">0.8975</td>
     <td style="font-weight: bold;">0.2055</td>
@@ -135,9 +135,9 @@
   <tr>
     <th>scheduler</th>
     <th>SeqDiffuSeq</th>
-    <th>BLEU(↑)</th>
-    <th>BERTScore(↑)</th>
-    <th>Dist-1(↑)</th>
+    <th>BLEU (↑)</th>
+    <th>BERTScore (↑)</th>
+    <th>Dist-1 (↑)</th>
   </tr>
   <tr>
     <td>WA</td>
@@ -205,9 +205,9 @@
   <tr>
     <th>scheduler</th>
     <th>Dinoiser</th>
-    <th>BLEU(↑)</th>
-    <th>BERTScore(↑)</th>
-    <th>Dist-1(↑)</th>
+    <th>BLEU (↑)</th>
+    <th>BERTScore (↑)</th>
+    <th>Dist-1 (↑)</th>
   </tr>
   <tr>
     <td>WA</td>
