@@ -130,7 +130,7 @@
 <br>
 <br>
 
-**Supplemented Table 4:** Plug-and-play experiments of Meta-DiffuB on SeqDiffuSeq. 
+**Supplemented Table 4:** Plug-and-play experiments of Meta-DiffuB on SeqDiffuSeq. The "scheduler" field indicates the dataset our scheduler was originally trained on and trained together with DiffuSeq. The "SeqDiffuSeq" field indicates the dataset the original SeqDiffuSeq model was trained on. If the "SeqDiffuSeq" field is "Null," it means the model used its own noise strategy as described in the original paper. Results where using the scheduler-generated noise during inference outperforms the SeqDiffuSeq's own noise strategy are highlighted in bold.
 <table>
   <tr>
     <th>scheduler</th>
@@ -200,7 +200,7 @@
 <br>
 <br>
 
-**Supplemented Table 5:** More plug-and-play experiments of Meta-DiffuB on Dinoiser.
+**Supplemented Table 5:** More plug-and-play experiments of Meta-DiffuB on Dinoiser. The "scheduler" field indicates the dataset our scheduler was originally trained on and trained together with DiffuSeq. The "Dinoiser" field indicates the dataset the original Dinoiser model was trained on. If the "Dinoiser" field is "Null," it means the model used its own noise strategy as described in the original paper. Results where using the scheduler-generated noise during inference outperforms the Dinoiser's own noise strategy are highlighted in bold.
 <table>
   <tr>
     <th>scheduler</th>
