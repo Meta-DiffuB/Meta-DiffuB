@@ -6,7 +6,7 @@
 <br>
 <br>
 
-**Supplemented Table 2:** Meta-DiffuB on Machine Translation Datasets
+**Supplemented Table 2:** Meta-DiffuB on Machine Translation Datasets. When S2S-Diffusion models are used as the exploiter models in our Meta-Diffu$B$ framework and are trained from scratch, they achieve performance that surpasses their original results, as indicated in bold.
 <table>
   <tr>
     <th rowspan="2">Methods</th>
@@ -52,7 +52,7 @@
 <br>
 <br>
 
-**Supplemented Table 3**: More baselines compared with our Meta-DiffuB. DiffuSeq-V2 does not report the result on QG dataset.
+**Supplemented Table 3**: More baselines compared with our Meta-DiffuB. DiffuSeq-V2 does not report the result on QG dataset. When S2S-Diffusion models are used as the exploiter models in our Meta-Diffu$B$ framework and are trained from scratch, they achieve performance that surpasses their original results, as indicated in bold.
 <table>
   <tr>
     <th rowspan="2">Methods</th>
@@ -130,7 +130,7 @@
 <br>
 <br>
 
-**Supplemented Table 4:** Plug-and-play experiments of Meta-DiffuB on SeqDiffuSeq.
+**Supplemented Table 4:** Plug-and-play experiments of Meta-DiffuB on SeqDiffuSeq. 
 <table>
   <tr>
     <th>scheduler</th>
