@@ -24,8 +24,8 @@
   </tr>
   <tr>
     <td>Meta-DiffuB (exploiter=DiffuSeq)</td>
-    <td style="font-weight: bold;">31.71</td>
-    <td style="font-weight: bold;">26.17</td>
+    <td><strong>31.71</strong></td>
+    <td><strong>26.17</strong></td>
   </tr>
   <tr>
     <td>SeqDiffuSeq</td>
@@ -34,8 +34,8 @@
   </tr>
   <tr>
     <td>Meta-DiffuB (exploiter=SeqDiffuSeq)</td>
-    <td style="font-weight: bold;">32.41</td>
-    <td style="font-weight: bold;">26.14</td>
+    <td><strong>32.41</strong></td>
+    <td><strong>26.14</strong></td>
   </tr>
   <tr>
     <td>Dinoiser</td>
@@ -44,8 +44,8 @@
   </tr>
   <tr>
     <td>Meta-DiffuB (exploiter=Dinoiser)</td>
-    <td style="font-weight: bold;">33.82</td>
-    <td style="font-weight: bold;">32.09</td>
+    <td>3<strong>3.82</strong></td>
+    <td><strong>32.09</strong></td>
   </tr>
 </table>
 
@@ -74,10 +74,10 @@
   </tr>
   <tr>
     <td>Meta-DiffuB (exploiter=DiffuSeq)</td>
-    <td style="font-weight: bold;">0.2552</td>
-    <td style="font-weight: bold;">0.8821</td>
-    <td style="font-weight: bold;">0.1826</td>
-    <td style="font-weight: bold;">0.6357</td>
+    <td><strong>0.2552</strong></td>
+    <td><strong>0.8821</strong></td>
+    <td><strong>0.1826</strong></td>
+    <td><strong>0.6357</strong></td>
   </tr>
   <tr>
     <td>DiffuSeq-v2 [1]</td>
@@ -88,8 +88,8 @@
   </tr>
   <tr>
     <td>Meta-DiffuB (exploiter=DiffuSeq-v2)</td>
-    <td style="font-weight: bold;">0.2556</td>
-    <td style="font-weight: bold;">0.8829</td>
+    <td><strong>0.2556</strong></td>
+    <td><strong>0.8829</strong></td>
     <td>-</td>
     <td>-</td>
   </tr>
@@ -102,24 +102,24 @@
   </tr>
   <tr>
     <td>Meta-DiffuB (exploiter=BG-DiffuSeq)</td>
-    <td style="font-weight: bold;">0.279</td>
-    <td style="font-weight: bold;">0.8757</td>
-    <td style="font-weight: bold;">0.1838</td>
-    <td style="font-weight: bold;">0.6571</td>
+    <td><strong>0.2790</strong></td>
+    <td><strong>0.8757</strong></td>
+    <td><strong>0.1838</strong></td>
+    <td><strong>0.6571</strong></td>
   </tr>
   <tr>
     <td>TESS [3]</td>
-    <td>0.302</td>
-    <td>0.857</td>
-    <td>0.195</td>
-    <td>0.658</td>
+    <td>0.3020</td>
+    <td>0.8570</td>
+    <td>0.1950</td>
+    <td>0.6580</td>
   </tr>
   <tr>
     <td>Meta-DiffuB (exploiter=TESS)</td>
-    <td style="font-weight: bold;">0.3142</td>
-    <td style="font-weight: bold;">0.8975</td>
-    <td style="font-weight: bold;">0.2055</td>
-    <td style="font-weight: bold;">0.6761</td>
+    <td><strong>0.3142</strong></td>
+    <td><strong>0.8975</strong></td>
+    <td><strong>0.2055</strong></td>
+    <td><strong>0.6761</strong></td>
   </tr>
 </table>
 
@@ -142,15 +142,15 @@
   <tr>
     <td>WA</td>
     <td rowspan="3" style="text-align: center">QQP</td>
-    <td style="font-weight: bold;">0.2627</td>
-    <td style="font-weight: bold;">0.8481</td>
-    <td style="font-weight: bold;">0.9814</td>
+    <td><strong>0.2627</strong></td>
+    <td><strong>0.8481</strong></td>
+    <td><strong>0.9814</strong></td>
   </tr>
   <tr>
     <td>QT</td>
-    <td style="font-weight: bold;">0.2612</td>
-    <td style="font-weight: bold;">0.8550</td>
-    <td style="font-weight: bold;">0.9844</td>
+    <td><strong>0.2612</strong></td>
+    <td><strong>0.8550</strong></td>
+    <td><strong>0.9844</strong></td>
   </tr>
   <tr>
     <td>Null</td>
@@ -161,15 +161,15 @@
   <tr>
     <td>WA</td>
     <td rowspan="3" style="text-align: center">QT</td>
-    <td style="font-weight: bold;">0.1834</td>
-    <td style="font-weight: bold;">0.6226</td>
-    <td style="font-weight: bold;">0.9369</td>
+    <td><strong>0.1834</strong></td>
+    <td><strong>0.6226</strong></td>
+    <td><strong>0.9369</strong></td>
   </tr>
   <tr>
     <td>QQP</td>
-    <td style="font-weight: bold;">0.1784</td>
-    <td style="font-weight: bold;">0.6233</td>
-    <td style="font-weight: bold;">0.9341</td>
+    <td><strong>0.1784</strong></td>
+    <td><strong>0.6233</strong></td>
+    <td><strong>0.9341</strong></td>
   </tr>
   <tr>
     <td>Null</td>
@@ -180,15 +180,15 @@
   <tr>
     <td>QT</td>
     <td rowspan="3" style="text-align: center">WA</td>
-    <td style="font-weight: bold;">0.3745</td>
-    <td style="font-weight: bold;">0.8369</td>
-    <td style="font-weight: bold;">0.9169</td>
+    <td><strong>0.3745</strong></td>
+    <td><strong>0.8369</strong></td>
+    <td><strong>0.9169</strong></td>
   </tr>
   <tr>
     <td>QQP</td>
-    <td style="font-weight: bold;">0.3827</td>
-    <td style="font-weight: bold;">0.8257</td>
-    <td style="font-weight: bold;">0.9158</td>
+    <td><strong>0.3827</strong></td>
+    <td><strong>0.8257</strong></td>
+    <td><strong>0.9158</strong></td>
   </tr>
   <tr>
     <td>Null</td>
@@ -212,15 +212,15 @@
   <tr>
     <td>WA</td>
     <td rowspan="3" style="text-align: center">QQP</td>
-    <td style="font-weight: bold;">0.2079</td>
-    <td style="font-weight: bold;">0.8121</td>
-    <td style="font-weight: bold;">0.9765</td>
+    <td><strong>0.2079</strong></td>
+    <td><strong>0.8121</strong></td>
+    <td><strong>0.9765</strong></td>
   </tr>
   <tr>
     <td>QT</td>
-    <td style="font-weight: bold;">0.2092</td>
-    <td style="font-weight: bold;">0.8207</td>
-    <td style="font-weight: bold;">0.966</td>
+    <td><strong>0.2092</strong></td>
+    <td><strong>0.8207</strong></td>
+    <td><strong>0.9660</strong></td>
   </tr>
   <tr>
     <td>Null</td>
@@ -231,34 +231,34 @@
   <tr>
     <td>WA</td>
     <td rowspan="3" style="text-align: center">QT</td>
-    <td style="font-weight: bold;">0.0495</td>
-    <td style="font-weight: bold;">0.474</td>
-    <td style="font-weight: bold;">0.8289</td>
+    <td><strong>0.0495</strong></td>
+    <td><strong>0.4740</strong></td>
+    <td><strong>0.8289</strong></td>
   </tr>
   <tr>
     <td>QQP</td>
-    <td style="font-weight: bold;">0.0488</td>
-    <td style="font-weight: bold;">0.4764</td>
-    <td style="font-weight: bold;">0.8312</td>
+    <td><strong>0.0488</strong></td>
+    <td><strong>0.4764</strong></td>
+    <td><strong>0.8312</strong></td>
   </tr>
   <tr>
     <td>Null</td>
     <td>0.0477</td>
-    <td>0.469</td>
+    <td>0.4690</td>
     <td>0.8191</td>
   </tr>
   <tr>
     <td>QT</td>
     <td rowspan="3" style="text-align: center">WA</td>
-    <td style="font-weight: bold;">0.2409</td>
-    <td style="font-weight: bold;">0.6885</td>
-    <td style="font-weight: bold;">0.8368</td>
+    <td><strong>0.2409</strong></td>
+    <td><strong>0.6885</strong></td>
+    <td><strong>0.8368</strong></td>
   </tr>
   <tr>
     <td>QQP</td>
-    <td style="font-weight: bold;">0.2451</td>
-    <td style="font-weight: bold;">0.684</td>
-    <td style="font-weight: bold;">0.8404</td>
+    <td><strong>0.2451</strong></td>
+    <td><strong>0.6840</strong></td>
+    <td><strong>0.8404</strong></td>
   </tr>
   <tr>
     <td>Null</td>
