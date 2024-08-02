@@ -1,4 +1,4 @@
-**Supplemented Table 1**: By deploying an additional LSTM-Seq2Seq model as our scheduler model, we increase the model parameters by 2.2% compared to DiffuSeq. Additionally, due to the calculation of rewards and scheduled noise, Meta-DiffuB increases the average training time per epoch by 5% compared to DiffuSeq and increases the average inference time  by 0.5% compared to DiffuSeq.
+**Supplemented Table 1**: In DiffuSeq, the same maximum length, diffusion steps, model parameters, and training batch size are used across all four datasets mentioned in the paper. Consequently, our scheduler settings are also consistent across the four datasets, regardless of the increase in inference time, training time, and model parameters.
 |  | increased parameters (%) | increased training time (%) | increased inference time (%) |
 | :-- | :--: | :--: | :--: |
 | Meta-DiffuB | 2.2% | 5% | 0.5% |
