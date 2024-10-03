@@ -26,6 +26,12 @@ fairseq-preprocess \
     --workers 20
 ```
 
+## Training, Inference, and Evaluation
+All training, inference, and evaluation scripts are put in the `{model_type}/script` directory. For example, to train Meta-DiffuB-Difformer on th QQP dataset, simply run:
+```
+bash scripts/qqp/train.sh
+```
+
 ## Baseline Model Reference
 The other S2S-Diffusion models' code we run for experiments.
 - [Diffuseq](https://github.com/Shark-NLP/DiffuSeq)
