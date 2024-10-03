@@ -3,6 +3,14 @@
 Comparison between S2S-Diffusion model (i.e., DiffuSeq) and the proposed Meta-DiffuB. The shades of color represent different amounts of noise being imposed.
 Different from prior works that use a fixed noise, we introduce a novel scheduler-exploiter framework, Meta-DiffuB, which achieves trainable noise scheduling inspired by Meta Exploration. Our scheduler model schedules contextualized noise, enhancing the training and generation of the S2S-Diffusion model, resulting in state-of-the-art (SOTA) performance compared to previous S2S-Diffusion models, as detailed in Section 4.
 
+## Getting started
+Our implementation is based on Python 3.8, PyTorch 1.11 and Fairseq 0.10.2. The following command will install the dependencies and this package in a Conda environment:
+```
+conda install pytorch==1.11.0 -c pytorch
+pip install -e .
+```
+According to the provided steps, after confirming the installation of fairseq, please replace the code in the installed environment with the code from the `fairseq` and `fairseq_cli` folders that we provided.
+
 ## Datasets
 For the non-translation task, we follows [DiffuSeq](https://github.com/Shark-NLP/DiffuSeq/tree/main) dataset settings.
 Prepare datasets and put them under the `datasets` folder. 
@@ -26,11 +34,23 @@ fairseq-preprocess \
     --workers 20
 ```
 
-## Training, Inference, and Evaluation
-All training, inference, and evaluation scripts are put in the `{model_type}/script` directory. For example, to train Meta-DiffuB-Difformer on th QQP dataset, simply run:
-```
+## Training, inference and Evaluation
+All training, inference, and evaluation scripts are located in the `{model_type}/scripts` directory. For example, to train Meta-DiffuB-Difformer on the QQP dataset, simply run:
+```bash
 bash scripts/qqp/train.sh
 ```
+To run inference and evaluate Meta-DiffuB-Difformer on the QQP dataset, run:
+```bash
+bash scripts/qqp/evaluate.sh
+```
+
+For Meta-DiffuB-DiffuSeq, a different approach is required. Instead of bash scripts, Jupyter Notebook files are used for training, inference, and evaluation. Specifically:
+- To train Meta-DiffuB-DiffuSeq, execute `scripts/Train.ipynb` in Jupyter Notebook.
+- To run inference, execute `scripts/Inference.ipynb` in Jupyter Notebook.
+- To evaluate the model, execute `scripts/Evaluate.ipynb` in Jupyter Notebook.
+
+You can modify the parameters in the `.ipynb` files (such as the dataset) to fit your specific usage scenario.
+
 
 ## Baseline Model Reference
 The other S2S-Diffusion models' code we run for experiments.
