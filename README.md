@@ -34,7 +34,7 @@ fairseq-preprocess \
     --workers 20
 ```
 
-## Training, inference and Evaluation
+## Training, inference, and Evaluation
 All training, inference, and evaluation scripts are located in the `{model_type}/scripts` directory. For example, to train Meta-DiffuB-Difformer on the QQP dataset, simply run:
 ```bash
 bash scripts/qqp/train.sh
