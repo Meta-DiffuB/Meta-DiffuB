@@ -1,4 +1,4 @@
-## MetaBeta-Diffusion
+## Meta-DiffuB
 ![Image Alt text](/img/Meta_DiffuB.jpg)
 Comparison between S2S-Diffusion model (i.e., DiffuSeq) and the proposed Meta-DiffuB. The shades of color represent different amounts of noise being imposed.
 Different from prior works that use a fixed noise, we introduce a novel scheduler-exploiter framework, Meta-DiffuB, which achieves trainable noise scheduling inspired by Meta Exploration. Our scheduler model schedules contextualized noise, enhancing the training and generation of the S2S-Diffusion model, resulting in state-of-the-art (SOTA) performance compared to previous S2S-Diffusion models, as detailed in Section 4.
@@ -7,7 +7,7 @@ Different from prior works that use a fixed noise, we introduce a novel schedule
 For the non-translation task, we follows [DiffuSeq](https://github.com/Shark-NLP/DiffuSeq/tree/main) dataset settings.
 Prepare datasets and put them under the `datasets` folder. 
 Take `datasets/WA/train.jsonl` as an example. We use four datasets in our paper.
-|Task|Datasets|TRaiing Sample|Source|Used in MetaBeta-Diffusion|
+|Task|Datasets|TRaiing Sample|Source|Used in Meta-DiffuB|
 |:---|:---|:---|:---|:---|
 |Open-domain Dialogue|Commonsense Conversation|3382k|[CCM](https://github.com/thu-coai/ccm)|[download](https://drive.google.com/drive/folders/1exENF9Qc5UtXnHlNl9fvaxP3zyyH32qp)|
 |Question Generation|Quasar-T|117k|[OpenQA](https://github.com/thunlp/OpenQA)|[download](https://drive.google.com/drive/folders/122YK0IElSnGZbPMigXrduTVL1geB4wEW)|
@@ -25,15 +25,6 @@ fairseq-preprocess \
     --joined-dictionary \
     --workers 20
 ```
-
-## MetaBeta-Diffusion Training
-Run `Train.ipynb` in jupyter notebook.
-
-## MetaBeta-Diffusion Inference
-Run `Inference.ipynb` in jupyter notebook.
-
-## MetaBeta-Diffusion Evaluate
-Run `Evaluate.ipynb` in jupyter notebook.
 
 ## Baseline Model Reference
 The other S2S-Diffusion models' code we run for experiments.
