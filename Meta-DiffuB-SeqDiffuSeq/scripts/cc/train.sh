@@ -10,7 +10,7 @@ MAX_TOKENS=12000
 MAX_UPDATE=2000
 
 DATASET="cc/data-bin"
-MODEL_DIR="models/Meta_qt/"
+MODEL_DIR="models/MetaDiffuB_qt/"
 
 mkdir -p $MODEL_DIR/tb
 
