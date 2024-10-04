@@ -8,8 +8,7 @@ EPOCH="378"
 UPDATE="2000"
 
 DATASET="cc/data-bin"
-# MODEL_DIR="models/${DATASET}_1e-4"
-MODEL_DIR="models/Meta_cc"
+MODEL_DIR="models/MetaDiffuB_cc"
 
 OUTPUT_NAME="evaluate_step${STEPS}_beam${LENGTH_BEAM}x${NOISE_BEAM}_${UPDATE}"
 OUTPUT_DIR=$MODEL_DIR/$OUTPUT_NAME
@@ -49,12 +48,12 @@ grep ^H $OUTPUT_DIR/output.txt \
     | cut -f3- \
     > $OUTPUT_DIR/tmp/output.tok.sys
 
-# if [ -n "$ROUGE_INSTALLED" ]; then
-#     files2rouge $OUTPUT_DIR/tmp/output.tok.ref $OUTPUT_DIR/tmp/output.tok.sys \
-#         | sed -n 14p \
-#         >> $OUTPUT_DIR/scores.txt
-#     echo >> $OUTPUT_DIR/scores.txt
-# fi
+if [ -n "$ROUGE_INSTALLED" ]; then
+    files2rouge $OUTPUT_DIR/tmp/output.tok.ref $OUTPUT_DIR/tmp/output.tok.sys \
+        | sed -n 14p \
+        >> $OUTPUT_DIR/scores.txt
+    echo >> $OUTPUT_DIR/scores.txt
+fi
 
 # bert score
 cat $OUTPUT_DIR/tmp/output.tok.ref \
