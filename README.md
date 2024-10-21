@@ -1,10 +1,13 @@
 # Meta-DiffuB: A Contextualized Sequence-to-Sequence Text Diffusion Model with Meta-Exploration
 <p align="center">
     Yun-Yen Chuang · Hung-Min Hsu · Kevin Lin · Chen-Sheng Gu · Ling-Zhen Li · Ray-I Chang · Hung-yi Lee<br>
+    <img src="/img/MAXORA_AI.jpg" alt="圖片" style="width: 90px; height: auto;"><br>
     <a href="https://neurips.cc/media/neurips-2024/Slides/95436_gptxu0a.pdf">[Slide]</a>
     <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202024/95436.png?t=1729485777.3869653">[Poster]</a>  
-    <img src="/img/MAXORA_AI.jpg" alt="圖片" style="float: right; width: 200px; height: auto;">
 </p>
+
+## Our Paper at NeurIPS 2024
+This project is based on our paper accepted at [38th Conference on Neural Information Processing Systems (NeurIPS 2024)](https://neurips.cc/), titled **"Meta-DiffuB: A Contextualized Sequence-to-Sequence Text Diffusion Model with Meta-Exploration"**. You can find the paper [here](link-to-paper).
 
 ## Meta-DiffuB
 ![Image Alt text](/img/Meta_DiffuB.jpg)
