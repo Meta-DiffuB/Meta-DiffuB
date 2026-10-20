@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta-DiffuB</title>
+<meta name="description" content="Meta-DiffuB (NeurIPS 2024): a scheduler model learns a noise schedule for every sentence, lifting sequence-to-sequence text diffusion to state of the art on four benchmarks.">
+<meta property="og:title" content="Meta-DiffuB · NeurIPS 2024">
+<meta property="og:description" content="A noise schedule learned for every sentence. Contextualized sequence-to-sequence text diffusion with Meta-Exploration.">
+<meta property="og:image" content="assets/framework.jpg">
+<link rel="icon" href="assets/maxora.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F4F7;
+  --paper-2:#E7EBF1;
+  --ink:#0E1424;
+  --ink-2:#4A5266;
+  --line:#D3D9E3;
+  --cobalt:#2F47E0;
+  --cobalt-soft:#DCE2FF;
+  --noise:#9AA3B5;
+  --gutter:clamp(16px,5vw,64px);
+  --measure:68ch;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Bricolage Grotesque",system-ui,sans-serif;
+  font-variation-settings:"wdth" 100;
+  font-size:18px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:16px}
+.brand img{width:34px;height:34px;mix-blend-mode:multiply;object-fit:cover;object-position:50% 30%}
+.top nav{display:flex;gap:22px;font-size:16px}
+.top nav a{text-decoration:none;color:var(--ink-2)}
+.top nav a:hover{color:var(--ink)}
+
+/* hero */
+.hero{padding:clamp(40px,9vh,110px) 0 56px}
+.venue{font-size:16px;color:var(--ink-2);margin:0 0 18px}
+.title{
+  margin:0;font-weight:760;letter-spacing:-.035em;line-height:.9;
+  font-size:clamp(64px,15vw,212px);
+  font-variation-settings:"wdth" 82,"opsz" 96;
+  white-space:nowrap;
+}
+.title .g.n{display:inline-block;color:var(--noise);font-family:"JetBrains Mono",monospace;font-weight:400;font-size:.62em;vertical-align:.18em;text-align:center;width:.55em}
+.lede{font-size:clamp(24px,3.2vw,38px);line-height:1.2;max-width:22ch;margin:28px 0 0;font-weight:500;letter-spacing:-.01em}
+.authors{margin:26px 0 0;color:var(--ink-2);font-size:16px;max-width:70ch}
+.authors b{color:var(--ink);font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:600;font-size:16px;border:1.5px solid var(--ink)}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+
+/* live generation strip */
+.live{margin-top:64px;border-top:1.5px solid var(--ink);padding-top:22px;display:grid;grid-template-columns:150px 1fr;gap:10px 24px;align-items:baseline}
+.live dt{font-size:15px;color:var(--ink-2)}
+.live dd{margin:0;font-family:"JetBrains Mono",monospace;font-size:clamp(15px,1.9vw,21px);overflow-wrap:anywhere}
+.live .out .n{color:var(--noise)}
+.live .out .r{color:var(--cobalt);font-weight:600}
+.betas{display:flex;gap:3px;height:22px;align-items:flex-end}
+.betas i{flex:1;background:var(--ink);border-radius:2px 2px 0 0;transition:opacity .2s}
+.live .note{grid-column:2;font-size:14px;color:var(--ink-2);font-family:inherit}
+
+/* sections */
+section{padding:clamp(72px,11vh,130px) 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-.025em;margin:0 0 22px;font-weight:700;font-variation-settings:"wdth" 88;max-width:18ch}
+h3{font-size:22px;margin:0 0 8px;font-weight:650;letter-spacing:-.01em}
+p{max-width:var(--measure);margin:0 0 16px}
+.sub{color:var(--ink-2);font-size:20px;max-width:58ch}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:start}
+
+/* toggle */
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:22px;padding:3px;gap:2px;margin:10px 0 26px;flex-wrap:wrap}
+.seg button{font:inherit;font-size:15px;font-weight:600;border:0;background:transparent;color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/* schedule rows */
+.sched{display:grid;gap:22px}
+.srow .q{font-size:17px;margin-bottom:8px}
+.srow .q span{color:var(--ink-2);font-size:14px;margin-left:8px}
+.cells{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.cells i{aspect-ratio:1/1.3;border-radius:4px;background:var(--cobalt);transition:opacity .6s cubic-bezier(.2,.7,.2,1),background-color .4s}
+.cells.fixed i{background:var(--noise)}
+.axis{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-2);margin-top:6px}
+.caption{font-size:14px;color:var(--ink-2);margin-top:14px;max-width:60ch}
+
+/* loop diagram */
+.loop-svg{width:100%;height:auto;display:block;margin-top:12px}
+.loop-svg text{font-family:"Bricolage Grotesque",sans-serif}
+.steps{list-style:none;padding:0;margin:36px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:s}
+.steps li{counter-increment:s;border-top:1.5px solid var(--ink);padding-top:14px;font-size:16px;color:var(--ink-2)}
+.steps li::before{content:counter(s);display:block;font-weight:700;font-size:28px;color:var(--ink);line-height:1;margin-bottom:10px}
+.steps li b{color:var(--ink);font-weight:600}
+
+/* skipping playground */
+.play{background:#fff;border-radius:18px;padding:clamp(20px,3vw,36px);margin-top:56px;border:1px solid var(--line)}
+.play-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:18px}
+.ib{font:inherit;font-family:"JetBrains Mono",monospace;font-size:15px;font-weight:600;padding:10px 0;border-radius:8px;border:1.5px solid var(--ink);background:transparent;cursor:pointer;color:var(--ink)}
+.ib[aria-pressed="true"]{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.bars{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;height:150px;align-items:end;margin-top:14px}
+.bars .col{position:relative;height:100%;display:flex;align-items:flex-end}
+.bars .ref{position:absolute;left:0;right:0;bottom:0;border:1.5px dashed var(--noise);border-bottom:0;border-radius:4px 4px 0 0}
+.bars .val{width:100%;background:var(--cobalt);border-radius:4px 4px 0 0;transition:height .45s cubic-bezier(.2,.7,.2,1);position:relative}
+.legend{display:flex;gap:20px;flex-wrap:wrap;font-size:14px;color:var(--ink-2);margin-top:14px}
+.legend span::before{content:"";display:inline-block;width:14px;height:10px;margin-right:6px;border-radius:2px;vertical-align:0}
+.legend .l1::before{background:var(--cobalt)}
+.legend .l2::before{border:1.5px dashed var(--noise)}
+.play-row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.linkbtn{font:inherit;font-size:15px;background:none;border:0;color:var(--cobalt);font-weight:600;cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
+
+/* results */
+.big-ranks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:40px 0 56px}
+.big-ranks div{border-top:1.5px solid var(--ink);padding-top:12px}
+.big-ranks strong{display:block;font-size:clamp(44px,6vw,78px);line-height:1;font-weight:700;letter-spacing:-.03em;font-variation-settings:"wdth" 80}
+.big-ranks span{font-size:15px;color:var(--ink-2)}
+.chart-controls{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+.chart-controls .seg{margin:0 0 10px}
+.hbars{display:grid;gap:10px;margin-top:22px}
+.hb{display:grid;grid-template-columns:150px 1fr 74px;gap:14px;align-items:center;font-size:16px}
+.hb .track{height:26px;background:var(--paper-2);border-radius:6px;overflow:hidden}
+.hb .fill{height:100%;background:var(--noise);border-radius:6px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.hb.me .fill{background:var(--cobalt)}
+.hb.me .name,.hb.me .num{font-weight:700;color:var(--cobalt)}
+.hb .num{font-family:"JetBrains Mono",monospace;font-size:15px;text-align:right}
+.hb .name small{color:var(--ink-2);font-size:13px;margin-left:4px}
+
+/* slope */
+.slope{width:100%;height:auto;max-width:560px}
+.slope text{font-family:"Bricolage Grotesque",sans-serif}
+
+/* plug and play */
+.pp{display:grid;gap:14px;margin-top:10px}
+.cost{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.cost div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.cost strong{font-size:40px;font-weight:700;letter-spacing:-.02em;display:block;line-height:1.1}
+.cost span{font-size:15px;color:var(--ink-2)}
+
+/* figure */
+figure{margin:48px 0 0}
+figure img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:#fff;display:block}
+figcaption{font-size:14px;color:var(--ink-2);margin-top:10px;max-width:72ch}
+
+/* cite */
+pre{background:var(--ink);color:#E8ECF5;border-radius:14px;padding:22px;overflow:auto;font-size:14px;line-height:1.6;margin:0}
+.cite-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.copy{font:inherit;font-size:15px;font-weight:600;padding:8px 16px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;cursor:pointer}
+.copy:hover{background:var(--ink);color:var(--paper)}
+
+footer{border-top:1.5px solid var(--ink);padding:40px 0 60px;font-size:15px;color:var(--ink-2)}
+footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer img{width:72px;mix-blend-mode:multiply}
+
+@media (max-width:860px){
+  .two{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .big-ranks{grid-template-columns:1fr 1fr}
+  .top nav{display:none}
+  .live{grid-template-columns:1fr}
+  .live .note{grid-column:1}
+  .hb{grid-template-columns:110px 1fr 62px;gap:10px;font-size:15px}
+}
+@media (max-width:520px){
+  .cost{grid-template-columns:1fr}
+  .play-grid,.bars{gap:3px}
+  .ib{font-size:13px;padding:8px 0}
+  .title{font-size:clamp(48px,17vw,90px)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#"><img src="assets/maxora.jpg" alt="">Maxora AI</a>
+    <nav aria-label="Sections">
+      <a href="#problem">Problem</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#cite">Cite</a>
+    </nav>
+  </header>
+
+  <main>
+  <div class="hero">
+    <p class="venue">NeurIPS 2024 · Maxora AI and National Taiwan University</p>
+    <h1 class="title" id="title" aria-label="Meta-DiffuB">Meta-DiffuB</h1>
+    <p class="lede">A noise schedule learned for every sentence.</p>
+    <p class="authors"><b>Yun-Yen Chuang</b>, Hung-Min Hsu, Kevin Lin, Chen-Sheng Gu, Ling-Zhen Li, Ray-I Chang, Hung-yi Lee. Maxora AI, National Taiwan University, University of Washington, Microsoft.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/91d193b65d0b120d29503590827de1ea-Abstract-Conference.html">Read the paper</a>
+      <a class="btn" href="https://github.com/Meta-DiffuB/Meta-DiffuB">Get the code</a>
+      <a class="btn" href="https://neurips.cc/media/neurips-2024/Slides/95436_gptxu0a.pdf">Slides</a>
+      <a class="btn" href="https://neurips.cc/media/PosterPDFs/NeurIPS%202024/95436.png?t=1729485777.3869653">Poster</a>
+    </div>
+
+    <dl class="live" aria-label="Animated illustration of denoising">
+      <dt>Condition</dt>
+      <dd>How do I get better at public speaking?</dd>
+      <dt>Generating</dt>
+      <dd class="out" id="liveOut" aria-hidden="true"></dd>
+      <dt>Noise level</dt>
+      <dd><div class="betas" id="liveBetas"></div></dd>
+      <dt>Step</dt>
+      <dd id="liveStep">t = 2000</dd>
+      <dd class="note">Illustration: the target sentence emerges as the exploiter removes noise step by step, under a schedule the scheduler picked for this input.</dd>
+    </dl>
+  </div>
+
+  <section id="problem">
+    <div class="two">
+      <div>
+        <h2>Fixed noise treats every sentence the same.</h2>
+        <p class="sub">Text diffusion models such as DiffuSeq add noise on one hand-picked curve, whether the sentence is trivial or tricky.</p>
+        <p>Seq2Seq tasks don't work that way. Some targets are almost a copy of the input; others need real rewriting. Meta-DiffuB gives each conditional sentence its own noise schedule, and the schedule keeps adapting as training goes on.</p>
+        <p>What it learned surprised us: it puts <em>less</em> noise on hard sentences and more on easy ones, and that is what improves both quality and diversity.</p>
+      </div>
+      <div>
+        <div class="seg" role="group" aria-label="Noise schedule">
+          <button type="button" aria-pressed="true" data-mode="fixed">Fixed (DiffuSeq)</button>
+          <button type="button" aria-pressed="false" data-mode="meta">Contextualized (Meta-DiffuB)</button>
+        </div>
+        <div class="sched">
+          <div class="srow">
+            <div class="q">"What is the capital of France?"<span>easy</span></div>
+            <div class="cells fixed" id="cellsE"></div>
+          </div>
+          <div class="srow">
+            <div class="q">"Is it worth leaving a stable job to start a company in your thirties?"<span>hard</span></div>
+            <div class="cells fixed" id="cellsH"></div>
+            <div class="axis"><span>step 1991</span><span>step 2000</span></div>
+          </div>
+        </div>
+        <p class="caption">The last 10 diffusion steps; darker cells mean more noise. Schematic, after Figure 3 of the paper, which averages Meta-DiffuB's noise over the 200 easiest and 200 hardest sentences.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="method">
+    <h2>A scheduler that learns from how well the model learns.</h2>
+    <p class="sub">Meta-DiffuB pairs two models. The scheduler reads the input and decides the noise. The exploiter, a standard S2S-Diffusion model, trains under that noise. The scheduler is then rewarded by how much the exploiter improved.</p>
+
+    <svg class="loop-svg" viewBox="0 0 1000 300" role="img" aria-labelledby="loopT">
+      <title id="loopT">Training loop: the input sentence goes to the scheduler, which emits Meta-Instructions turned into a noise schedule; the exploiter trains with that noise; the BLEU improvement is the Meta-Reward sent back to the scheduler.</title>
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0E1424"/></marker>
+      </defs>
+      <g fill="none" stroke="#0E1424" stroke-width="1.6" marker-end="url(#ah)">
+        <path d="M150,110 H212"/>
+        <path d="M388,110 H462"/>
+        <path d="M638,110 H712"/>
+        <path id="back" d="M800,160 V240 H300 V164"/>
+      </g>
+      <path id="fwd" d="M150,110 H800" fill="none" stroke="none"/>
+      <g font-size="17" fill="#0E1424">
+        <rect x="20" y="80" width="130" height="60" rx="30" fill="#fff" stroke="#0E1424" stroke-width="1.6"/>
+        <text x="85" y="106" text-anchor="middle" font-weight="650">Input</text>
+        <text x="85" y="126" text-anchor="middle" font-size="14" fill="#4A5266">sentence wˣ</text>
+
+        <rect x="214" y="60" width="174" height="100" rx="14" fill="#2F47E0"/>
+        <text x="301" y="102" text-anchor="middle" font-weight="700" fill="#fff">Scheduler B<tspan font-size="12" dy="4">ψ</tspan></text>
+        <text x="301" y="128" text-anchor="middle" font-size="14" fill="#DCE2FF">picks the noise</text>
+
+        <rect x="464" y="80" width="174" height="60" rx="10" fill="#fff" stroke="#2F47E0" stroke-width="1.6"/>
+        <text x="551" y="106" text-anchor="middle" font-weight="650">Noise βˣ</text>
+        <text x="551" y="126" text-anchor="middle" font-size="14" fill="#4A5266">via "skipping"</text>
+
+        <rect x="714" y="60" width="174" height="100" rx="14" fill="#0E1424"/>
+        <text x="801" y="102" text-anchor="middle" font-weight="700" fill="#fff">Exploiter D<tspan font-size="12" dy="4">θ</tspan></text>
+        <text x="801" y="128" text-anchor="middle" font-size="14" fill="#C9CFDB">S2S-Diffusion model</text>
+
+        <rect x="380" y="214" width="340" height="52" rx="26" fill="#F2F4F7" stroke="#0E1424" stroke-width="1.6"/>
+        <text x="550" y="246" text-anchor="middle" font-weight="650">Meta-Reward = BLEU(θ′) − BLEU(θ)</text>
+      </g>
+      <circle r="7" fill="#2F47E0" id="pulseA"><animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#fwd"/></animateMotion></circle>
+      <circle r="7" fill="#2F47E0" id="pulseB" opacity="0"><set attributeName="opacity" to="1" begin="1.6s"/><animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite"><mpath href="#back"/></animateMotion></circle>
+    </svg>
+
+    <ol class="steps">
+      <li><b>Read the input.</b> The scheduler, a small Seq2Seq model, encodes the conditional sentence.</li>
+      <li><b>Emit Meta-Instructions.</b> One True/False per diffusion step: step up the noise, or hold it.</li>
+      <li><b>Train the exploiter.</b> It learns to denoise under that schedule, exactly like DiffuSeq otherwise.</li>
+      <li><b>Reward the scheduler.</b> The BLEU gain becomes a policy-gradient signal, gathered over 32 parallel exploration epochs.</li>
+    </ol>
+
+    <div class="play">
+      <div class="play-row">
+        <div>
+          <h3>Try the skipping rule</h3>
+          <p style="margin:0;color:var(--ink-2);font-size:16px">Toggle each Meta-Instruction. True moves to the next value on the fixed sqrt curve; False holds the current one.</p>
+        </div>
+        <button class="linkbtn" type="button" id="randomize">Sample a new schedule</button>
+      </div>
+      <div class="play-grid" id="instr" role="group" aria-label="Meta-Instructions for 10 steps"></div>
+      <div class="bars" id="bars" aria-hidden="true"></div>
+      <div class="legend"><span class="l1">Scheduled noise βˣ</span><span class="l2">Fixed sqrt schedule</span></div>
+      <p class="caption" id="instrSummary" aria-live="polite"></p>
+    </div>
+
+    <figure>
+      <img src="assets/framework.jpg" alt="Figure 1 of the paper: previous S2S-Diffusion models use one fixed noise schedule for all sentences, while Meta-DiffuB's scheduler model gives each sentence its own schedule and is updated with rewards via policy gradient." width="1217" height="582" loading="lazy">
+      <figcaption>Figure 1 from the paper. Top: one fixed schedule for every sentence. Bottom: the scheduler gives each sentence its own schedule and is updated by policy gradient.</figcaption>
+    </figure>
+  </section>
+
+  <section id="results">
+    <h2>Best mean rank on all four benchmarks.</h2>
+    <p class="sub">Compared against DiffuSeq, SeqDiffuSeq, Dinoiser and fine-tuned GPT-2 and LevT, with the same data and training settings as DiffuSeq.</p>
+
+    <div class="big-ranks">
+      <div><strong>1.00</strong><span>Paraphrase (QQP)</span></div>
+      <div><strong>1.60</strong><span>Text simplification (Wiki-Auto)</span></div>
+      <div><strong>1.80</strong><span>Question generation (Quasar-T)</span></div>
+      <div><strong>1.20</strong><span>Open-domain dialogue (CC)</span></div>
+    </div>
+    <p class="caption" style="margin-top:-36px;margin-bottom:48px">Mean rank across BLEU, ROUGE-L, BERTScore, Dist-1 and Self-BLEU. Lower is better; 1.00 means first on every metric.</p>
+
+    <div class="chart-controls">
+      <div class="seg" role="group" aria-label="Dataset" id="dsSeg"></div>
+      <div class="seg" role="group" aria-label="Metric" id="mSeg"></div>
+    </div>
+    <div class="hbars" id="hbars" role="table" aria-label="Benchmark results"></div>
+    <p class="caption" id="metricNote"></p>
+  </section>
+
+  <section>
+    <div class="two">
+      <div>
+        <h2>Hard sentences don't break it.</h2>
+        <p class="sub">On the 200 hardest Wiki-Auto sentences, other diffusion models lose 12–28% of their BLEU. Meta-DiffuB loses 7%.</p>
+        <p>Because it gives harder inputs a gentler schedule, the exploiter keeps more of the signal it needs, and the outputs stay diverse too: Self-BLEU on hard sentences is 0.406, against 0.509 for DiffuSeq.</p>
+      </div>
+      <svg class="slope" id="slope" viewBox="0 0 520 380" role="img" aria-label="BLEU on easy versus hard sentences: Meta-DiffuB 0.400 to 0.372, SeqDiffuSeq 0.375 to 0.328, DiffuSeq 0.372 to 0.322, Dinoiser 0.289 to 0.209."></svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="two">
+      <div>
+        <h2>Plug it into a model you already trained.</h2>
+        <p class="sub">A scheduler trained on one dataset improves a pre-trained DiffuSeq on another, at inference time, with no fine-tuning.</p>
+        <p>It also works as a drop-in for other diffusion models. Wrapping SeqDiffuSeq raises its QQP BLEU from 0.243 to 0.263; wrapping Dinoiser, from 0.195 to 0.227.</p>
+      </div>
+      <div>
+        <h3 style="font-size:18px">DiffuSeq on QQP, BLEU</h3>
+        <div class="pp" id="pp"></div>
+      </div>
+    </div>
+    <div class="cost">
+      <div><strong>+2.2%</strong><span>parameters</span></div>
+      <div><strong>+5%</strong><span>training time</span></div>
+      <div><strong>+0.5%</strong><span>inference time</span></div>
+    </div>
+    <p class="caption">Overhead of adding Meta-DiffuB to DiffuSeq (Table 1).</p>
+  </section>
+
+  <section id="cite">
+    <div class="cite-head">
+      <h2 style="margin:0">Cite this work</h2>
+      <button class="copy" type="button" id="copyBib">Copy BibTeX</button>
+    </div>
+<pre id="bib">@inproceedings{chuang2024metadiffub,
+  title     = {Meta-DiffuB: A Contextualized Sequence-to-Sequence Text Diffusion Model with Meta-Exploration},
+  author    = {Chuang, Yun-Yen and Hsu, Hung-Min and Lin, Kevin and Gu, Chen-Sheng and Li, Ling-Zhen and Chang, Ray-I and Lee, Hung-yi},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {37},
+  year      = {2024}
+}</pre>
+  </section>
+  </main>
+
+  <footer>
+    <div class="row">
+      <div style="display:flex;gap:16px;align-items:center">
+        <img src="assets/maxora.jpg" alt="Maxora AI logo">
+        <div>Research by Maxora AI with National Taiwan University,<br>University of Washington and Microsoft.</div>
+      </div>
+      <div><a href="https://github.com/Meta-DiffuB/Meta-DiffuB">github.com/Meta-DiffuB</a></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const GLYPHS = '░▒▓#%&*+=?@$<>/\\~';
+  const rg = () => GLYPHS[Math.random() * GLYPHS.length | 0];
+
+  // Hero title: denoise once on load
+  const title = document.getElementById('title');
+  const word = title.textContent;
+  title.textContent = '';
+  const spans = [...word].map(ch => {
+    const s = document.createElement('span');
+    s.className = 'g'; s.setAttribute('aria-hidden', 'true');
+    s.textContent = ch; title.appendChild(s); return s;
+  });
+  if (!reduce) {
+    const thr = spans.map((_, i) => 0.15 + 0.75 * ((i * 7) % spans.length) / spans.length);
+    let start = null, last = 0;
+    spans.forEach(s => { s.classList.add('n'); s.textContent = rg(); });
+    const tick = ts => {
+      start ??= ts;
+      const p = Math.min(1, (ts - start) / 1800);
+      const refresh = ts - last > 60; if (refresh) last = ts;
+      spans.forEach((s, i) => {
+        if (p >= thr[i]) { if (s.classList.contains('n')) { s.classList.remove('n'); s.textContent = word[i]; } }
+        else if (refresh) s.textContent = rg();
+      });
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    setTimeout(() => spans.forEach((s, i) => { s.classList.remove('n'); s.textContent = word[i]; }), 2600);
+  }
+
+  // Live generation strip
+  const target = 'What can I do to improve my public speaking?';
+  const out = document.getElementById('liveOut');
+  const betasEl = document.getElementById('liveBetas');
+  const stepEl = document.getElementById('liveStep');
+  const NB = 40;
+  // contextualized schedule: sqrt curve with a few held steps
+  // noise level 1 - alpha_bar under the sqrt schedule of Diffusion-LM / DiffuSeq
+  const sqrtBeta = n => Array.from({length: n}, (_, i) => Math.sqrt((i + 1) / n + 1e-4));
+  const base = sqrtBeta(NB);
+  const bmax = Math.max(...base);
+  for (let i = 0; i < NB; i++) { const b = document.createElement('i'); b.style.height = Math.max(8, 100 * Math.min(1, base[i] / bmax)) + '%'; betasEl.appendChild(b); }
+  const bars = [...betasEl.children];
+  const order = [...target].map((_, i) => ((i * 13) % target.length) / target.length);
+  const renderOut = p => {
+    out.innerHTML = [...target].map((ch, i) => {
+      if (ch === ' ') return ' ';
+      if (p >= order[i] * 0.92 + 0.04) return `<span class="${p < 1 ? 'r' : ''}">${ch}</span>`;
+      return `<span class="n">${rg()}</span>`;
+    }).join('');
+  };
+  if (reduce) {
+    renderOut(1); stepEl.textContent = 't = 0';
+  } else {
+    let t0 = null, lastR = 0;
+    const DUR = 5200, HOLD = 2200;
+    const loop = ts => {
+      t0 ??= ts;
+      const el = (ts - t0) % (DUR + HOLD);
+      const p = Math.min(1, el / DUR);
+      if (ts - lastR > 70 || p === 1) {
+        lastR = ts;
+        renderOut(p);
+        const step = Math.round(2000 * (1 - p));
+        stepEl.textContent = 't = ' + step;
+        const lit = Math.round(NB * (1 - p));
+        bars.forEach((b, i) => b.style.opacity = i < lit ? 1 : 0.15);
+      }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  }
+
+  // Problem: fixed vs contextualized schedule (schematic)
+  const fixed = [.30,.36,.42,.48,.55,.62,.70,.78,.88,1];
+  const easy  = [.34,.42,.50,.58,.66,.74,.82,.90,.96,1];
+  const hard  = [.18,.22,.26,.30,.34,.38,.44,.50,.56,.62];
+  const cE = document.getElementById('cellsE'), cH = document.getElementById('cellsH');
+  [cE, cH].forEach(c => { for (let i = 0; i < 10; i++) c.appendChild(document.createElement('i')); });
+  const paint = mode => {
+    const e = mode === 'meta' ? easy : fixed, h = mode === 'meta' ? hard : fixed;
+    [...cE.children].forEach((x, i) => x.style.opacity = e[i]);
+    [...cH.children].forEach((x, i) => x.style.opacity = h[i]);
+    cE.classList.toggle('fixed', mode !== 'meta'); cH.classList.toggle('fixed', mode !== 'meta');
+  };
+  document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-mode]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    paint(b.dataset.mode);
+  }));
+  paint('fixed');
+
+  // Skipping playground
+  const N = 10, sq = sqrtBeta(N);
+  const sqNorm = sq.map(v => v / Math.max(...sq));
+  const instrEl = document.getElementById('instr'), barsEl = document.getElementById('bars'), sumEl = document.getElementById('instrSummary');
+  let instr = [true,false,true,true,false,true,false,true,true,false];
+  const vals = [], btns = [];
+  for (let i = 0; i < N; i++) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'ib';
+    b.addEventListener('click', () => { instr[i] = !instr[i]; renderPlay(); });
+    instrEl.appendChild(b); btns.push(b);
+    const col = document.createElement('div'); col.className = 'col';
+    const ref = document.createElement('div'); ref.className = 'ref'; ref.style.height = Math.min(100, 100 * sqNorm[i]) + '%';
+    const v = document.createElement('div'); v.className = 'val';
+    col.append(ref, v); barsEl.appendChild(col); vals.push(v);
+  }
+  const skipping = ins => { let idx = -1; return ins.map(t => { if (t) idx++; return Math.max(idx, 0); }); };
+  const renderPlay = () => {
+    const idx = skipping(instr);
+    btns.forEach((b, i) => { b.textContent = instr[i] ? 'T' : 'F'; b.setAttribute('aria-pressed', instr[i]); b.setAttribute('aria-label', `Step ${i + 1}: ${instr[i] ? 'True, step up' : 'False, hold'}`); });
+    vals.forEach((v, i) => v.style.height = Math.max(3, Math.min(100, 100 * sqNorm[idx[i]])) + '%');
+    const held = instr.filter(x => !x).length;
+    sumEl.textContent = `${held} of 10 steps hold their noise level, so this sentence reaches only value ${idx[N - 1] + 1} of 10 on the fixed curve: a gentler schedule. Same number of steps, so batches still run in parallel.`;
+  };
+  document.getElementById('randomize').addEventListener('click', () => { instr = instr.map(() => Math.random() < 0.65); renderPlay(); });
+  renderPlay();
+
+  // Results (Table 3)
+  const MODELS = ['GPT2-base','GPT2-large','LevT','DiffuSeq','SeqDiffuSeq','Dinoiser','Meta-DiffuB'];
+  const D = {
+    QQP: [[.1980,.5212,.8246,.9798,.5480,5.20],[.2059,.5415,.8363,.9819,.7325,3.80],[.2268,.5795,.8344,.9790,.9995,4.80],[.2413,.5880,.8365,.9807,.2732,2.60],[.2434,null,.8400,.9807,null,2.33],[.1949,.5316,.8036,.9723,.8643,6.20],[.2632,.5933,.8519,.9902,.2595,1.00]],
+    'Wiki-Auto': [[.3083,.5461,.8021,.9439,.5444,3.40],[.2693,.5111,.7882,.9464,.6042,4.00],[.2052,.4402,.7254,.9715,.9907,5.00],[.3622,.5849,.8126,.9264,.4642,3.00],[.3712,null,.8214,.9077,null,3.33],[.2388,.4821,.6787,.8421,.9132,6.20],[.3877,.6047,.8233,.9355,.3888,1.60]],
+    'Quasar-T': [[.0741,.2714,.6052,.9602,.1403,3.80],[.1110,.3215,.6346,.9670,.2910,2.60],[.0930,.2893,.5491,.8914,.9830,5.40],[.1731,.3665,.6123,.9056,.2789,3.20],[.1746,null,.6174,.9248,null,3.33],[.0477,.1872,.4690,.8191,.5273,6.40],[.1820,.3870,.6286,.9323,.2527,1.80]],
+    CC: [[.0108,.1508,.5279,.9194,.0182,4.00],[.0125,.1002,.5293,.9244,.0213,4.00],[.0158,.0550,.4760,.9726,.7103,3.80],[.0139,.1056,.5131,.9467,.0144,3.40],[.0112,null,.4425,.9608,null,2.80],[.0096,.1166,.3545,.2485,.9994,6.00],[.0220,.1528,.5316,.9670,.0133,1.20]],
+  };
+  const METRICS = [
+    {k:'BLEU', lower:false, d:4},{k:'ROUGE-L', lower:false, d:4},{k:'BERTScore', lower:false, d:4},
+    {k:'Dist-1', lower:false, d:4},{k:'Self-BLEU', lower:true, d:4},{k:'Mean rank', lower:true, d:2},
+  ];
+  const NOTES = {
+    'BLEU':'Overlap with the reference. Higher is better.',
+    'ROUGE-L':'Longest common subsequence with the reference. Higher is better. SeqDiffuSeq did not report it.',
+    'BERTScore':'Semantic similarity to the reference. Higher is better.',
+    'Dist-1':'Share of distinct words, a diversity measure. Higher is better.',
+    'Self-BLEU':'Similarity among a model\'s own outputs. Lower means more diverse. SeqDiffuSeq did not report it.',
+    'Mean rank':'Average rank across the five metrics. Lower is better.',
+  };
+  let ds = 'QQP', mi = 0;
+  const hb = document.getElementById('hbars');
+  const rows = MODELS.map(m => {
+    const r = document.createElement('div'); r.className = 'hb' + (m === 'Meta-DiffuB' ? ' me' : ''); r.setAttribute('role', 'row');
+    r.innerHTML = `<div class="name" role="rowheader">${m}${m === 'Meta-DiffuB' ? '' : ''}</div><div class="track"><div class="fill"></div></div><div class="num mono" role="cell"></div>`;
+    hb.appendChild(r); return r;
+  });
+  const renderBars = () => {
+    const M = METRICS[mi], col = D[ds].map(r => r[mi]);
+    const present = col.filter(v => v != null);
+    const max = Math.max(...present), min = Math.min(...present);
+    rows.forEach((r, i) => {
+      const v = col[i];
+      let w = 0;
+      if (v != null) w = M.lower ? 12 + 88 * (max - v) / (max - min || 1) : 100 * v / max;
+      r.querySelector('.fill').style.width = w + '%';
+      r.querySelector('.num').textContent = v == null ? 'n/a' : v.toFixed(M.d);
+    });
+    document.getElementById('metricNote').textContent = NOTES[M.k] + (M.lower ? ' Bars are flipped so a longer bar is always better.' : '');
+  };
+  const mkSeg = (el, items, get, set) => {
+    items.forEach((label, i) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = label;
+      b.setAttribute('aria-pressed', get() === i);
+      b.addEventListener('click', () => { set(i); [...el.children].forEach((x, j) => x.setAttribute('aria-pressed', j === i)); renderBars(); });
+      el.appendChild(b);
+    });
+  };
+  const DSN = Object.keys(D);
+  mkSeg(document.getElementById('dsSeg'), DSN, () => DSN.indexOf(ds), i => ds = DSN[i]);
+  mkSeg(document.getElementById('mSeg'), METRICS.map(m => m.k + (m.lower ? ' ↓' : '')), () => mi, i => mi = i);
+  renderBars();
+
+  // Slope chart (Table 4)
+  const S = [
+    {m:'Meta-DiffuB', e:.3997, h:.3724, me:true},
+    {m:'SeqDiffuSeq', e:.3752, h:.3282},
+    {m:'DiffuSeq', e:.3721, h:.3216},
+    {m:'Dinoiser', e:.2892, h:.2092},
+  ];
+  const svg = document.getElementById('slope');
+  const y = v => 340 - (v - .18) / (.42 - .18) * 300;
+  const X1 = 120, X2 = 330;
+  let html = `<text x="${X1}" y="22" text-anchor="middle" font-size="15" fill="#4A5266">Easy (200)</text><text x="${X2}" y="22" text-anchor="middle" font-size="15" fill="#4A5266">Hard (200)</text>`;
+  html += `<line x1="${X1}" y1="40" x2="${X1}" y2="345" stroke="#D3D9E3"/><line x1="${X2}" y1="40" x2="${X2}" y2="345" stroke="#D3D9E3"/>`;
+  const labelY = {'Meta-DiffuB':0,'SeqDiffuSeq':-8,'DiffuSeq':10,'Dinoiser':0};
+  const leftY = {'Meta-DiffuB':-4,'SeqDiffuSeq':-6,'DiffuSeq':10,'Dinoiser':0};
+  S.forEach(s => {
+    const c = s.me ? '#2F47E0' : '#9AA3B5', w = s.me ? 4 : 2.5;
+    const drop = Math.round((1 - s.h / s.e) * 1000) / 10;
+    html += `<line x1="${X1}" y1="${y(s.e)}" x2="${X2}" y2="${y(s.h)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+    html += `<circle cx="${X1}" cy="${y(s.e)}" r="5" fill="${c}"/><circle cx="${X2}" cy="${y(s.h)}" r="5" fill="${c}"/>`;
+    html += `<text x="${X1 - 12}" y="${y(s.e) + 5 + leftY[s.m]}" text-anchor="end" font-size="14" fill="${s.me ? c : '#4A5266'}" font-family="JetBrains Mono">${s.e.toFixed(3)}</text>`;
+    html += `<text x="${X2 + 12}" y="${y(s.h) + 5 + labelY[s.m]}" font-size="15" fill="${s.me ? c : '#0E1424'}" font-weight="${s.me ? 700 : 500}">${s.m} <tspan fill="${s.me ? c : '#4A5266'}" font-weight="400" font-size="13">−${drop}%</tspan></text>`;
+  });
+  html += `<text x="${(X1 + X2) / 2}" y="372" text-anchor="middle" font-size="13" fill="#4A5266">BLEU on Wiki-Auto (Table 4)</text>`;
+  svg.innerHTML = html;
+
+  // Plug-and-play (Table 5)
+  const PP = [['Own fixed noise', .2413, false], ['Scheduler trained on Wiki-Auto', .2594, true], ['Scheduler trained on Quasar-T', .2603, true]];
+  const pp = document.getElementById('pp');
+  PP.forEach(([n, v, me]) => {
+    const r = document.createElement('div'); r.className = 'hb' + (me ? ' me' : '');
+    r.style.gridTemplateColumns = 'minmax(120px,1.3fr) 1fr 64px';
+    r.innerHTML = `<div class="name">${n}</div><div class="track"><div class="fill" style="width:${100 * (v - .2) / (.27 - .2)}%"></div></div><div class="num">${v.toFixed(4)}</div>`;
+    pp.appendChild(r);
+  });
+
+  // Copy BibTeX
+  const cb = document.getElementById('copyBib');
+  cb.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(document.getElementById('bib').textContent); cb.textContent = 'Copied'; }
+    catch { cb.textContent = 'Select and copy manually'; }
+    setTimeout(() => cb.textContent = 'Copy BibTeX', 1800);
+  });
+
+  if (reduce) document.querySelectorAll('animateMotion').forEach(a => a.remove()), document.querySelectorAll('#pulseA,#pulseB').forEach(c => c.remove());
+})();
+</script>
+</body>
+</html>
