@@ -161,6 +161,16 @@ pre{background:var(--ink);color:#E8ECF5;border-radius:14px;padding:22px;overflow
 .copy{font:inherit;font-size:15px;font-weight:600;padding:8px 16px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;cursor:pointer}
 .copy:hover{background:var(--ink);color:var(--paper)}
 
+/* team */
+.team{display:grid;grid-template-columns:repeat(7,1fr);gap:36px 20px;margin-top:40px;list-style:none;padding:0}
+.team li{font-size:15px;color:var(--ink-2);line-height:1.4}
+.team .ph{width:min(112px,100%);aspect-ratio:1;height:auto;border-radius:50%;object-fit:cover;display:block;margin-bottom:14px;background:var(--paper-2)}
+.team .ini{display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;color:var(--cobalt);background:var(--cobalt-soft)}
+.team b{display:block;color:var(--ink);font-size:17px;font-weight:650;margin-bottom:2px}
+.orgs{display:flex;flex-wrap:wrap;gap:16px;margin-top:56px;align-items:center}
+.orgs img{height:84px;width:auto;border-radius:12px;background:#fff;border:1px solid var(--line);padding:10px}
+.orgs img.dark{padding:0;border:0}
+
 footer{border-top:1.5px solid var(--ink);padding:40px 0 60px;font-size:15px;color:var(--ink-2)}
 footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
 footer img{width:72px;mix-blend-mode:multiply}
@@ -170,6 +180,7 @@ footer img{width:72px;mix-blend-mode:multiply}
   .steps{grid-template-columns:1fr 1fr}
   .big-ranks{grid-template-columns:1fr 1fr}
   .top nav{display:none}
+  .team{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
   .live{grid-template-columns:1fr}
   .live .note{grid-column:1}
   .hb{grid-template-columns:110px 1fr 62px;gap:10px;font-size:15px}
@@ -195,6 +206,7 @@ footer img{width:72px;mix-blend-mode:multiply}
       <a href="#problem">Problem</a>
       <a href="#method">Method</a>
       <a href="#results">Results</a>
+      <a href="#team">Team</a>
       <a href="#cite">Cite</a>
     </nav>
   </header>
@@ -372,6 +384,26 @@ footer img{width:72px;mix-blend-mode:multiply}
     <p class="caption">Overhead of adding Meta-DiffuB to DiffuSeq (Table 1).</p>
   </section>
 
+  <section id="team">
+    <h2>The team</h2>
+    <p class="sub">Built at Maxora AI and National Taiwan University, with collaborators at the University of Washington and Microsoft.</p>
+    <ul class="team">
+      <li><img class="ph" src="assets/authors/yun-yen-chuang.jpg" alt="Yun-Yen Chuang" loading="lazy" width="120" height="120"><b>Yun-Yen Chuang</b>Maxora AI, National Taiwan University</li>
+      <li><img class="ph" src="assets/authors/hung-min-hsu.jpg" alt="Hung-Min Hsu" loading="lazy" width="120" height="120"><b>Hung-Min Hsu</b>University of Washington</li>
+      <li><img class="ph" src="assets/authors/kevin-lin.jpg" alt="Kevin Lin" loading="lazy" width="120" height="120"><b>Kevin Lin</b>Microsoft</li>
+      <li><img class="ph" src="assets/authors/chen-sheng-gu.jpg" alt="Chen-Sheng Gu" loading="lazy" width="120" height="120"><b>Chen-Sheng Gu</b>Maxora AI, National Taiwan University</li>
+      <li><div class="ph ini" aria-hidden="true">LL</div><b>Ling-Zhen Li</b>Maxora AI, National Taiwan University</li>
+      <li><img class="ph" src="assets/authors/ray-i-chang.jpg" alt="Ray-I Chang" loading="lazy" width="120" height="120"><b>Ray-I Chang</b>National Taiwan University</li>
+      <li><img class="ph" src="assets/authors/hung-yi-lee.jpg" alt="Hung-yi Lee" loading="lazy" width="120" height="120"><b>Hung-yi Lee</b>National Taiwan University</li>
+    </ul>
+    <div class="orgs">
+      <img class="dark" src="assets/logos/maxora.png" alt="Maxora AI" loading="lazy">
+      <img src="assets/logos/ntu.png" alt="National Taiwan University" loading="lazy">
+      <img src="assets/logos/uw.png" alt="University of Washington" loading="lazy">
+      <img src="assets/logos/microsoft.png" alt="Microsoft" loading="lazy">
+    </div>
+  </section>
+
   <section id="cite">
     <div class="cite-head">
       <h2 style="margin:0">Cite this work</h2>
@@ -415,20 +447,21 @@ footer img{width:72px;mix-blend-mode:multiply}
   });
   if (!reduce) {
     const thr = spans.map((_, i) => 0.15 + 0.75 * ((i * 7) % spans.length) / spans.length);
-    let start = null, last = 0;
+    let start = null, last = 0, done = false;
     spans.forEach(s => { s.classList.add('n'); s.textContent = rg(); });
     const tick = ts => {
+      if (done) return;
       start ??= ts;
       const p = Math.min(1, (ts - start) / 1800);
       const refresh = ts - last > 60; if (refresh) last = ts;
       spans.forEach((s, i) => {
         if (p >= thr[i]) { if (s.classList.contains('n')) { s.classList.remove('n'); s.textContent = word[i]; } }
-        else if (refresh) s.textContent = rg();
+        else if (refresh && s.classList.contains('n')) s.textContent = rg();
       });
-      if (p < 1) requestAnimationFrame(tick);
+      if (p < 1 && !done) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
-    setTimeout(() => spans.forEach((s, i) => { s.classList.remove('n'); s.textContent = word[i]; }), 2600);
+    setTimeout(() => (done = true) && spans.forEach((s, i) => { s.classList.remove('n'); s.textContent = word[i]; }), 2600);
   }
 
   // Live generation strip
