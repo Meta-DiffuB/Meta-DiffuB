@@ -172,6 +172,7 @@ pre{background:var(--ink);color:#E8ECF5;border-radius:14px;padding:22px;overflow
 .team .person:hover b{color:var(--cobalt);text-decoration:underline;text-underline-offset:3px}
 .team b{display:block;color:var(--ink);font-size:17px;font-weight:650;margin-bottom:2px}
 .orgs{display:flex;flex-wrap:wrap;gap:16px;margin-top:56px;align-items:center}
+.orgs a{display:block;border-radius:12px}
 .orgs img{height:84px;width:auto;border-radius:12px;background:#fff;border:1px solid var(--line);padding:10px}
 .orgs img.dark{padding:0;border:0}
 
@@ -205,7 +206,7 @@ footer img{width:72px;mix-blend-mode:multiply}
 
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="#"><img src="assets/maxora.jpg" alt="">Maxora AI</a>
+    <a class="brand" href="https://maxora.ai"><img src="assets/maxora.jpg" alt="">Maxora AI</a>
     <nav aria-label="Sections">
       <a href="#problem">Problem</a>
       <a href="#method">Method</a>
@@ -401,7 +402,7 @@ footer img{width:72px;mix-blend-mode:multiply}
       <li><img class="ph" src="assets/authors/hung-yi-lee.jpg" alt="Hung-yi Lee" loading="lazy" width="120" height="120"><b>Hung-yi Lee</b>National Taiwan University</li>
     </ul>
     <div class="orgs">
-      <img class="dark" src="assets/logos/maxora.png" alt="Maxora AI" loading="lazy">
+      <a href="https://maxora.ai"><img class="dark" src="assets/logos/maxora.png" alt="Maxora AI" loading="lazy"></a>
       <img src="assets/logos/ntu.png" alt="National Taiwan University" loading="lazy">
       <img src="assets/logos/uw.png" alt="University of Washington" loading="lazy">
       <img src="assets/logos/microsoft.png" alt="Microsoft" loading="lazy">
@@ -426,10 +427,10 @@ footer img{width:72px;mix-blend-mode:multiply}
   <footer>
     <div class="row">
       <div style="display:flex;gap:16px;align-items:center">
-        <img src="assets/maxora.jpg" alt="Maxora AI logo">
-        <div>Research by Maxora AI with National Taiwan University,<br>University of Washington and Microsoft.</div>
+        <a href="https://maxora.ai"><img src="assets/maxora.jpg" alt="Maxora AI"></a>
+        <div>Research by <a href="https://maxora.ai">Maxora AI</a> with National Taiwan University,<br>University of Washington and Microsoft.</div>
       </div>
-      <div><a href="https://github.com/Meta-DiffuB/Meta-DiffuB">github.com/Meta-DiffuB</a></div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap"><a href="https://maxora.ai">maxora.ai</a><a href="https://github.com/Meta-DiffuB/Meta-DiffuB">github.com/Meta-DiffuB</a></div>
     </div>
   </footer>
 </div>
