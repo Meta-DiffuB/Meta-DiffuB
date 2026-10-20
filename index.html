@@ -166,6 +166,10 @@ pre{background:var(--ink);color:#E8ECF5;border-radius:14px;padding:22px;overflow
 .team li{font-size:15px;color:var(--ink-2);line-height:1.4}
 .team .ph{width:min(112px,100%);aspect-ratio:1;height:auto;border-radius:50%;object-fit:cover;display:block;margin-bottom:14px;background:var(--paper-2)}
 .team .ini{display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;color:var(--cobalt);background:var(--cobalt-soft)}
+.author-link{text-decoration-color:var(--line);text-underline-offset:3px}
+.author-link:hover{text-decoration-color:var(--cobalt)}
+.team .person{text-decoration:none;display:block}
+.team .person:hover b{color:var(--cobalt);text-decoration:underline;text-underline-offset:3px}
 .team b{display:block;color:var(--ink);font-size:17px;font-weight:650;margin-bottom:2px}
 .orgs{display:flex;flex-wrap:wrap;gap:16px;margin-top:56px;align-items:center}
 .orgs img{height:84px;width:auto;border-radius:12px;background:#fff;border:1px solid var(--line);padding:10px}
@@ -216,7 +220,7 @@ footer img{width:72px;mix-blend-mode:multiply}
     <p class="venue">NeurIPS 2024 · Maxora AI and National Taiwan University</p>
     <h1 class="title" id="title" aria-label="Meta-DiffuB">Meta-DiffuB</h1>
     <p class="lede">A noise schedule learned for every sentence.</p>
-    <p class="authors"><b>Yun-Yen Chuang</b>, Hung-Min Hsu, Kevin Lin, Chen-Sheng Gu, Ling-Zhen Li, Ray-I Chang, Hung-yi Lee. Maxora AI, National Taiwan University, University of Washington, Microsoft.</p>
+    <p class="authors"><a class="author-link" href="https://yunyenchuang.com"><b>Yun-Yen Chuang</b></a>, Hung-Min Hsu, Kevin Lin, Chen-Sheng Gu, Ling-Zhen Li, Ray-I Chang, Hung-yi Lee. Maxora AI, National Taiwan University, University of Washington, Microsoft.</p>
     <div class="cta">
       <a class="btn primary" href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/91d193b65d0b120d29503590827de1ea-Abstract-Conference.html">Read the paper</a>
       <a class="btn" href="https://github.com/Meta-DiffuB/Meta-DiffuB">Get the code</a>
@@ -388,7 +392,7 @@ footer img{width:72px;mix-blend-mode:multiply}
     <h2>The team</h2>
     <p class="sub">Built at Maxora AI and National Taiwan University, with collaborators at the University of Washington and Microsoft.</p>
     <ul class="team">
-      <li><img class="ph" src="assets/authors/yun-yen-chuang.jpg" alt="Yun-Yen Chuang" loading="lazy" width="120" height="120"><b>Yun-Yen Chuang</b>Maxora AI, National Taiwan University</li>
+      <li><a class="person" href="https://yunyenchuang.com"><img class="ph" src="assets/authors/yun-yen-chuang.jpg" alt="" loading="lazy" width="120" height="120"><b>Yun-Yen Chuang</b></a>Maxora AI, National Taiwan University</li>
       <li><img class="ph" src="assets/authors/hung-min-hsu.jpg" alt="Hung-Min Hsu" loading="lazy" width="120" height="120"><b>Hung-Min Hsu</b>University of Washington</li>
       <li><img class="ph" src="assets/authors/kevin-lin.jpg" alt="Kevin Lin" loading="lazy" width="120" height="120"><b>Kevin Lin</b>Microsoft</li>
       <li><img class="ph" src="assets/authors/chen-sheng-gu.jpg" alt="Chen-Sheng Gu" loading="lazy" width="120" height="120"><b>Chen-Sheng Gu</b>Maxora AI, National Taiwan University</li>
