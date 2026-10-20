@@ -6,7 +6,7 @@
 </p>
 
 ## Our Paper at NeurIPS 2024
-This project is based on our paper accepted at [38th Conference on Neural Information Processing Systems (NeurIPS 2024)](https://neurips.cc/), titled **"Meta-DiffuB: A Contextualized Sequence-to-Sequence Text Diffusion Model with Meta-Exploration"**. You can find the paper [here](link-to-paper).
+This project is based on our paper accepted at [38th Conference on Neural Information Processing Systems (NeurIPS 2024)](https://neurips.cc/), titled **"Meta-DiffuB: A Contextualized Sequence-to-Sequence Text Diffusion Model with Meta-Exploration"**. You can find the paper [here](https://proceedings.neurips.cc/paper_files/paper/2024/hash/91d193b65d0b120d29503590827de1ea-Abstract-Conference.html).
 
 ## Meta-DiffuB
 ![Image Alt text](/img/Meta_DiffuB.jpg)
@@ -25,7 +25,7 @@ According to the provided steps, after confirming the installation of fairseq, p
 For the non-translation task, we follows [DiffuSeq](https://github.com/Shark-NLP/DiffuSeq/tree/main) dataset settings.
 Prepare datasets and put them under the `datasets` folder. 
 Take `datasets/WA/train.jsonl` as an example. We use four datasets in our paper.
-|Task|Datasets|TRaiing Sample|Source|Used in Meta-DiffuB|
+|Task|Datasets|Training Samples|Source|Used in Meta-DiffuB|
 |:---|:---|:---|:---|:---|
 |Open-domain Dialogue|Commonsense Conversation|3382k|[CCM](https://github.com/thu-coai/ccm)|[download](https://drive.google.com/drive/folders/1exENF9Qc5UtXnHlNl9fvaxP3zyyH32qp)|
 |Question Generation|Quasar-T|117k|[OpenQA](https://github.com/thunlp/OpenQA)|[download](https://drive.google.com/drive/folders/122YK0IElSnGZbPMigXrduTVL1geB4wEW)|
@@ -71,18 +71,3 @@ The other S2S-Diffusion models' code we run for experiments.
 - [BG-DiffuSeq](https://github.com/ZetangForward/Bridge_Gap_Diffusion/tree/main)
 - [RDM](https://github.com/HKUNLP/reparam-discrete-diffusion/tree/main)
 - [LD4LG](https://github.com/justinlovelace/latent-diffusion-for-language)
-
-<!--
-**metabeta-diffusion/metabeta-diffusion** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
